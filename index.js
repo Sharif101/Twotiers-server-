@@ -26,6 +26,7 @@ async function run() {
   try {
     const categoriesCollection = client.db("twoTires").collection("categories");
     const allbikesCollection = client.db("twoTires").collection("allbikes");
+    const usersCollection = client.db("twoTires").collection("users");
 
     app.get("/categories", async (req, res) => {
       const query = {};
@@ -40,6 +41,20 @@ async function run() {
       const cursor = allbikesCollection.find(query);
       const result = await cursor.toArray();
       // console.log(query);
+      res.send(result);
+    });
+
+    app.post("/users", async (req, res) => {
+      const users = req.body;
+      const result = await usersCollection.insertOne(users);
+      res.send(result);
+    });
+
+    app.get("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const cursor = usersCollection.find(query);
+      const result = await cursor.toArray();
       res.send(result);
     });
   } finally {
