@@ -120,12 +120,23 @@ async function run() {
       const result = await allbikesCollection.insertOne(bike);
       res.send(result);
     });
-    // app.get("/bikes", async (req, res) => {
-    //   const query = {};
-    //   const cursor = allbikesCollection.find(query);
-    //   const categories = await cursor.toArray();
-    //   res.send(categories);
-    // });
+
+    //all products
+    app.get("/bikes", async (req, res) => {
+      const query = {};
+      const cursor = allbikesCollection.find(query);
+      const categories = await cursor.toArray();
+      res.send(categories);
+    });
+
+    //seller product find by email
+    app.get("/bike/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { seller_email: email };
+      const cursor = allbikesCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
