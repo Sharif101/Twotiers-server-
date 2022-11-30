@@ -155,6 +155,23 @@ async function run() {
       const categories = await cursor.toArray();
       res.send(categories);
     });
+
+    //get all oders
+    app.get("/allorders", async (req, res) => {
+      const query = {};
+      const cursor = ordersCollection.find(query);
+      const categories = await cursor.toArray();
+      res.send(categories);
+    });
+
+    //buyer orders find by email
+    app.get("/order/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { useremail: email };
+      const cursor = ordersCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
