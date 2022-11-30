@@ -113,6 +113,19 @@ async function run() {
       const result = await ordersCollection.insertOne(orders);
       res.send(result);
     });
+
+    //add product
+    app.post("/bikes", async (req, res) => {
+      const bike = req.body;
+      const result = await allbikesCollection.insertOne(bike);
+      res.send(result);
+    });
+    // app.get("/bikes", async (req, res) => {
+    //   const query = {};
+    //   const cursor = allbikesCollection.find(query);
+    //   const categories = await cursor.toArray();
+    //   res.send(categories);
+    // });
   } finally {
   }
 }
