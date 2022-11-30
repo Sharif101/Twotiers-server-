@@ -90,16 +90,6 @@ async function run() {
       res.send(result);
     });
 
-    // //user get by id
-
-    // app.get("/user/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: ObjectId(id) };
-    //   const result = await usersCollection.findOne(query);
-    //   console.log(query);
-    //   res.send(result);
-    // });
-
     // delete
     app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
