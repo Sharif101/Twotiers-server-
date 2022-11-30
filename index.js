@@ -31,6 +31,9 @@ async function run() {
     const reporteditemCollection = client
       .db("twoTires")
       .collection("reporteditems");
+    const advertiesCollection = client
+      .db("twoTires")
+      .collection("advertisement");
 
     app.get("/categories", async (req, res) => {
       const query = {};
@@ -170,6 +173,21 @@ async function run() {
       const cursor = ordersCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
+    });
+
+    //advertise
+    app.post("/advertise", async (req, res) => {
+      const item = req.body;
+      const result = await advertiesCollection.insertOne(item);
+      res.send(result);
+    });
+
+    //advertise
+    app.get("/advertise", async (req, res) => {
+      const query = {};
+      const cursor = advertiesCollection.find(query);
+      const categories = await cursor.toArray();
+      res.send(categories);
     });
   } finally {
   }
