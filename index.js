@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 require("dotenv").config();
 const app = express();
@@ -27,6 +27,7 @@ async function run() {
     const categoriesCollection = client.db("twoTires").collection("categories");
     const allbikesCollection = client.db("twoTires").collection("allbikes");
     const usersCollection = client.db("twoTires").collection("users");
+    const ordersCollection = client.db("twoTires").collection("orders");
 
     app.get("/categories", async (req, res) => {
       const query = {};
@@ -44,17 +45,72 @@ async function run() {
       res.send(result);
     });
 
+    //create user
     app.post("/users", async (req, res) => {
       const users = req.body;
       const result = await usersCollection.insertOne(users);
       res.send(result);
     });
 
+    //find all user
+    app.get("/users", async (req, res) => {
+      const query = {};
+      const cursor = usersCollection.find(query);
+      const categories = await cursor.toArray();
+      res.send(categories);
+    });
+
+    //user get
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
       const cursor = usersCollection.find(query);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //user find
+    app.get("/members/:role", async (req, res) => {
+      const role = req.params.role;
+      const query = { roleIndentify: role };
+      const cursor = usersCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //user find
+    app.get("/members/:role", async (req, res) => {
+      const role = req.params.role;
+      const query = { roleIndentify: role };
+      const cursor = usersCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // //user get by id
+
+    // app.get("/user/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: ObjectId(id) };
+    //   const result = await usersCollection.findOne(query);
+    //   console.log(query);
+    //   res.send(result);
+    // });
+
+    // delete
+    app.delete("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(query);
+      console.log(query);
+      res.send(result);
+    });
+
+    // for insert a orders
+    app.post("/allorders", async (req, res) => {
+      const orders = req.body;
+      console.log(orders);
+      const result = await ordersCollection.insertOne(orders);
       res.send(result);
     });
   } finally {
