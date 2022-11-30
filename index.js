@@ -28,6 +28,9 @@ async function run() {
     const allbikesCollection = client.db("twoTires").collection("allbikes");
     const usersCollection = client.db("twoTires").collection("users");
     const ordersCollection = client.db("twoTires").collection("orders");
+    const reporteditemCollection = client
+      .db("twoTires")
+      .collection("reporteditems");
 
     app.get("/categories", async (req, res) => {
       const query = {};
@@ -136,6 +139,21 @@ async function run() {
       const cursor = allbikesCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
+    });
+
+    // reported item
+    app.post("/reportedItem/:id", async (req, res) => {
+      const id = req.body;
+      const result = await reporteditemCollection.insertOne(id);
+      res.send(result);
+    });
+
+    // show reported item
+    app.get("/reportedItem", async (req, res) => {
+      const query = {};
+      const cursor = reporteditemCollection.find(query);
+      const categories = await cursor.toArray();
+      res.send(categories);
     });
   } finally {
   }
